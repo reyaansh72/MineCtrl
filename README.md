@@ -2,63 +2,56 @@
 
 A lightweight Minecraft Server Dashboard built with Node.js 🚀
 
-MineCtrl is a simple and customizable web-based control panel for managing and monitoring your Minecraft server.
+MineCtrl is a simple and modern web-based control panel for managing and monitoring Minecraft servers.
 
 ---
 
 ## ✨ Features
 
-- Simple web dashboard
+- Web-based dashboard
 - Lightweight Node.js backend
-- Minecraft server monitoring
-- Easy setup and configuration
-- Open-source and customizable
+- Server status monitoring
+- Simple user system (Users.json)
+- Fast and easy setup
+- Fully customizable
 
 ---
 
-## 📦 Installation
+## 📦 Installation Guide
 
-Clone the repository:
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/reyaansh72/MineCtrl
 cd MineCtrl
-
-Install dependencies:
-
-npm install
-
-Start the server:
-
+2. Install required dependencies
+npm install express cors
+3. Start the server
 node server.js
 ⚙️ Requirements
-Node.js (v16 or higher recommended)
-npm (comes with Node.js)
-Minecraft server (optional depending on features used)
-🌐 Usage
+Node.js v16 or higher
+npm (Node Package Manager)
+Express
+CORS
+🌐 Open Dashboard
 
-After starting the server, open your browser and go to:
+After starting the server, open your browser and visit:
 
 http://localhost:3000
 📁 Project Structure
 MineCtrl/
 ├── server.js
 ├── package.json
-├── public/
-└── views/
-🛠️ Development
+├── Users.json
+🛠️ Development Mode (Optional)
 
-If you want live reload during development:
+If you want auto-restart while coding:
 
 npx nodemon server.js
 📌 Notes
-Default port is 3000
+Default server port is 3000
 Make sure the port is not already in use
-Configure settings in your project files if needed
-📄 License
-
-This project is open-source and free to use and modify.
-
+User data is stored in Users.json
 👨‍💻 Author
 
 Made with ❤️ by reyaansh72
