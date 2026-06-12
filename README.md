@@ -29,44 +29,73 @@ Before you begin, ensure you have the following installed on your system:
 
 ## 📦 Installation & Setup
 
-**1. Clone the repository**
+### 1. Clone the repository
+
 ```bash
-git clone [https://github.com/reyaansh72/MineCtrl.git](https://github.com/reyaansh72/MineCtrl.git)
+git clone https://github.com/reyaansh72/MineCtrl.git
 cd MineCtrl
-2. Install dependencies (This will install the required express and cors packages)
+```
 
-Bash
+### 2. Install dependencies
+
+```bash
 npm install express cors
-3. Start the server
+```
 
-Bash
+### 3. Start the server
+
+```bash
 node server.js
-🌐 Usage
-Once the server is running, open your favorite web browser and navigate to:
+```
 
-Plaintext
+---
+
+## 🌐 Usage
+
+Once the server is running, open your web browser and navigate to:
+
+```text
 http://localhost:3000
-📁 Project Structure
-Plaintext
+```
+
+---
+
+## 📁 Project Structure
+
+```text
 MineCtrl/
 ├── server.js       # Main application entry point
 ├── package.json    # Project metadata and dependencies
 └── Users.json      # Local user database
-🛠️ Development Mode (Optional)
-If you are modifying the code and want the server to auto-restart on save, use nodemon:
+```
 
-Bash
+---
+
+## 🛠️ Development Mode (Optional)
+
+If you are modifying the code and want the server to auto-restart on save, use `nodemon`:
+
+```bash
 # Install nodemon globally (if you haven't already)
 npm install -g nodemon
 
 # Run the server in development mode
 npx nodemon server.js
-📌 Important Notes
-Port Configuration: The default server port is 3000. Make sure no other services are currently using this port.
+```
 
-Data Storage: User credentials and settings are stored locally in Users.json.
+---
 
-👨‍💻 Author
-Reyaansh * GitHub: @reyaansh72
+## 📌 Important Notes
 
-Made with ❤️ for the Minecraft community.
+* **Port Configuration:** The default server port is `3000`. Make sure no other services are currently using this port.
+* **Data Storage:** User credentials and settings are stored locally in `Users.json`. 
+
+---
+
+## 👨‍💻 Author
+
+**Reyaansh**
+* GitHub: [@reyaansh72](https://github.com/reyaansh72)
+
+---
+*Made with ❤️ for the Minecraft community.*
