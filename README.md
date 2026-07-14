@@ -21,7 +21,7 @@ MineCtrl gives you real-time server visibility and control through a clean brows
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/) v16 or higher
+- [Node.js](https://nodejs.org/) v18 or higher
 - npm (bundled with Node.js)
 
 ---
