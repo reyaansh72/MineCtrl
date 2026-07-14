@@ -3,10 +3,48 @@ const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 const { spawn } = require("child_process");
+const https = require("https");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+function downloadFile(url, output) {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(output);
+
+    https.get(url, response => {
+      response.pipe(file);
+
+      file.on("finish", () => {
+        file.close(resolve);
+      });
+    }).on("error", err => {
+      fs.unlink(output, () => {});
+      reject(err);
+    });
+  });
+}
+
+async function getServerJarUrl(version) {
+  const manifest = await fetch(
+    "https://launchermeta.mojang.com/mc/game/version_manifest_v2.json"
+  ).then(r => r.json());
+
+  const versionInfo = manifest.versions.find(v => v.id === version);
+
+  if (!versionInfo) {
+    throw new Error("Minecraft version not found");
+  }
+
+  const versionData = await fetch(versionInfo.url)
+    .then(r => r.json());
+
+  return versionData.downloads.server.url;
+}
+
+
+
 
 // ── SERVER STORAGE ──
 let servers = {};
@@ -452,8 +490,8 @@ app.get("/home", (req, res) => {
   <div id="about" class="page hidden">
     <div class="page-title">About</div>
     <div class="card">
-      <div class="kv-row"><div class="kv-key">Author</div><div class="kv-value">Your Name</div></div>
-      <div class="kv-row"><div class="kv-key">GitHub</div><div class="kv-value"><a href="https://github.com/yourprofile" target="_blank">github.com/yourprofile</a></div></div>
+      <div class="kv-row"><div class="kv-key">Author</div><div class="kv-value">Reyaansh</div></div>
+      <div class="kv-row"><div class="kv-key">GitHub</div><div class="kv-value"><a href="https://github.com/reyaansh72" target="_blank">github.com/reyaansh72</a></div></div>
       <div class="kv-row"><div class="kv-key">Project</div><div class="kv-value">Minecraft Server Panel</div></div>
       <div class="kv-row"><div class="kv-key">Version API</div><div class="kv-value"><a href="https://launchermeta.mojang.com/mc/game/version_manifest.json" target="_blank">Mojang Manifest</a></div></div>
       <div class="kv-row"><div class="kv-key">Backend</div><div class="kv-value">Node.js / Express — no auth required</div></div>
@@ -681,19 +719,57 @@ app.post("/api/login", (req, res) => {
 // ===================================================
 
 // CREATE
-app.post("/api/server/create", (req, res) => {
+app.post("/api/server/create", async (req, res) => {
   const { name, version, type } = req.body;
+
   if (!name || !version || !type) {
     return res.json({ success: false, error: "Missing fields." });
   }
-  const id = Date.now().toString();
-  const dir = path.join(__dirname, "servers", id);
-  fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, "eula.txt"), "eula=true\n");
-  servers[id] = { id, name, version, type, status: "stopped", dir };
-  saveServers();
-  console.log("📦 Created server:", name, version, type);
-  res.json({ success: true, id });
+
+  try {
+    const id = Date.now().toString();
+    const dir = path.join(__dirname, "servers", id);
+
+    fs.mkdirSync(dir, { recursive: true });
+
+    console.log("⬇️ Downloading server.jar for", version);
+
+    const jarUrl = await getServerJarUrl(version);
+
+    await downloadFile(
+      jarUrl,
+      path.join(dir, "server.jar")
+    );
+
+    console.log("✅ server.jar downloaded");
+
+    fs.writeFileSync(
+      path.join(dir, "eula.txt"),
+      "eula=true\n"
+    );
+
+    servers[id] = {
+      id,
+      name,
+      version,
+      type,
+      status: "stopped",
+      dir
+    };
+
+    saveServers();
+
+    console.log("📦 Created server:", name, version, type);
+
+    res.json({ success: true, id });
+
+  } catch (err) {
+    console.error("❌ Server creation failed:", err);
+    res.json({
+      success: false,
+      error: err.message
+    });
+  }
 });
 
 // LIST
