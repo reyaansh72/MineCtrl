@@ -1,6 +1,6 @@
 # MineCtrl
 
-[![Node.js](https://img.shields.io/badge/Node.js-v16+-green.svg)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 > **A lightweight web dashboard for managing and monitoring Minecraft servers — no bloat, no fuss.**
